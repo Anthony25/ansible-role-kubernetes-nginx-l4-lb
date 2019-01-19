@@ -4,12 +4,19 @@ metadata:
   name: {{ kubernetes_nginx_l4_lb_configmap }}
   namespace: {{ kubernetes_nginx_l4_lb_namespace }}
 data:
-  streams.conf: |
-    stream {
-{% for clients in kubernetes_nginx_l4_clients %}
-      server {
-        listen {{ client.listen }}
-        proxy_pass {{ client.proxy_pass }};
-      }
-{% endfor %}
+  nginx.conf: |
+    worker_processes  1;
+
+    events {
+        worker_connections  1024;
     }
+    stream {
+      include /etc/nginx/conf.d/streams.conf;
+    }
+  streams.conf: |
+{% for client in kubernetes_nginx_l4_lb_clients %}
+    server {
+        listen {{ client.listen }};
+        proxy_pass {{ client.proxy_pass }};
+    }
+{% endfor %}

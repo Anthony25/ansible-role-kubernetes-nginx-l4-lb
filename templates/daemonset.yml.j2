@@ -38,6 +38,9 @@ spec:
           privileged: true
 
         volumeMounts:
+          - mountPath: /etc/nginx/nginx.conf
+            name: nginx-l4-lb-configmap
+            subPath: nginx.conf
           - mountPath: /etc/nginx/conf.d/streams.conf
             name: nginx-l4-lb-configmap
             subPath: streams.conf
@@ -48,6 +51,8 @@ spec:
             items:
               - key: streams.conf
                 path: streams.conf
+              - key: nginx.conf
+                path: nginx.conf
 
 {% if kubernetes_nginx_l4_lb_node_selector|default({}) %}
       nodeSelector: {{ kubernetes_nginx_l4_lb_node_selector | to_yaml }}

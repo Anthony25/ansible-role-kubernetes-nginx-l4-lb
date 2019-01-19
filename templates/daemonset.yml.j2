@@ -1,16 +1,16 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: {{ kubernetes_nginx_l4_lb_deployment }}
+  name: {{ kubernetes_nginx_l4_lb_daemonset }}
   namespace: {{ kubernetes_nginx_l4_lb_namespace }}
   labels:
     app: {{ kubernetes_nginx_l4_lb_app }}
-{% if kubernetes_nginx_l4_lb_deployment_labels %}
-    {{ kubernetes_nginx_l4_lb_deployment_labels | to_nice_yaml | indent(4) }}
+{% if kubernetes_nginx_l4_lb_daemonset_labels %}
+    {{ kubernetes_nginx_l4_lb_daemonset_labels | to_nice_yaml | indent(4) }}
 {% endif %}
-{% if kubernetes_nginx_l4_lb_deployment_annotations %}
+{% if kubernetes_nginx_l4_lb_daemonset_annotations %}
   annotations:
-    {{ kubernetes_nginx_l4_lb_deployment_annotations | to_nice_yaml | indent(4) }}
+    {{ kubernetes_nginx_l4_lb_daemonset_annotations | to_nice_yaml | indent(4) }}
 {% endif %}
 spec:
   selector:
@@ -25,25 +25,31 @@ spec:
       containers:
       - image: {{ kubernetes_nginx_l4_lb_image }}
         imagePullPolicy: Always
-        name: nginx_l4_lb
+        name: nginx-l4-lb
         resources:
           {{ kubernetes_nginx_l4_lb_resources | to_yaml | indent(10) }}
         securityContext:
           capabilities:
-          drop:
-            - ALL
-          add:
-            - NET_BIND_SERVICE
+            drop:
+              - ALL
+            add:
+              - NET_BIND_SERVICE
           # runAsUser: 0
           privileged: true
 
         volumeMounts:
           - mountPath: /etc/nginx/conf.d/streams.conf
-            name: {{ kubernetes_nginx_l4_lb_configmap }}
+            name: nginx-l4-lb-configmap
             subPath: streams.conf
+      volumes:
+        - name: nginx-l4-lb-configmap
+          configMap:
+            name: {{ kubernetes_nginx_l4_lb_configmap }}
+            items:
+              - key: streams.conf
+                path: streams.conf
 
 {% if kubernetes_nginx_l4_lb_node_selector|default({}) %}
       nodeSelector: {{ kubernetes_nginx_l4_lb_node_selector | to_yaml }}
 {% endif %}
       restartPolicy: Always
-status: {}

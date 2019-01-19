@@ -14,18 +14,18 @@ kubernetes_nginx_l4_lb_image: "linuxserver/sickchill:latest"
 kubernetes_nginx_l4_lb_namespace: "default"
 # App name (used as selector)
 kubernetes_nginx_l4_lb_app: "nginx-l4-lb"
-# Deployment name
-kubernetes_nginx_l4_lb_deployment: "nginx-l4-lb-deployment"
+# Daemonset name
+kubernetes_nginx_l4_lb_daemonset: "nginx-l4-lb-daemonset"
 # Service name
 kubernetes_nginx_l4_lb_service: "nginx-l4-lb"
 
 # Node selector
 kubernetes_nginx_l4_lb_node_selector: {}
 
-# Add custom labels in the deployment metadata section
-kubernetes_nginx_l4_lb_deployment_labels: {}
-# Add custom annotations in the deployment metadata section
-kubernetes_nginx_l4_lb_deployment_annotations: {}
+# Add custom labels in the daemonset metadata section
+kubernetes_nginx_l4_lb_daemonset_labels: {}
+# Add custom annotations in the daemonset metadata section
+kubernetes_nginx_l4_lb_daemonset_annotations: {}
 
 kubernetes_nginx_l4_lb_resources:
   limits:

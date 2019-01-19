@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ kubernetes_nginx_l4_lb_configmap }}
+  namespace: {{ kubernetes_nginx_l4_lb_namespace }}
+data:
+  streams.conf: |
+    stream {
+{% for clients in kubernetes_nginx_l4_clients %}
+      server {
+        listen {{ client.listen }}
+        proxy_pass {{ client.proxy_pass }};
+      }
+{% endfor %}
+    }

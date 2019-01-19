@@ -1,0 +1,23 @@
+---
+
+kubernetes_nginx_l4_lb_image: "anthony25/nginx-autoreload:1.14.2-alpine"
+
+kubernetes_nginx_l4_lb_namespace: "default"
+kubernetes_nginx_l4_lb_deployment: "nginx-l4-lb-deployment"
+kubernetes_nextcloud_configmap: "nginx-l4-lb-deployment"
+kubernetes_nginx_l4_lb_app: "nginx-l4-lb"
+
+kubernetes_nginx_l4_lb_node_selector: {}
+
+kubernetes_nginx_l4_lb_deployment_labels: {}
+kubernetes_nginx_l4_lb_deployment_annotations: {}
+
+kubernetes_nginx_l4_lb_resources:
+  limits:
+    memory: "756Mi"
+  requests:
+    memory: "64Mi"
+
+kubernetes_nginx_l4_clients: []
+
+# vim: set ts=2 sw=2:

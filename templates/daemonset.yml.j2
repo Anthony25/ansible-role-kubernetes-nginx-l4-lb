@@ -22,6 +22,7 @@ spec:
         app: {{ kubernetes_nginx_l4_lb_app }}
     spec:
       hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
       - image: {{ kubernetes_nginx_l4_lb_image }}
         imagePullPolicy: Always

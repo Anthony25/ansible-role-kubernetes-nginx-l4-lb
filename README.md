@@ -19,6 +19,9 @@ kubernetes_nginx_l4_lb_daemonset: "nginx-l4-lb-daemonset"
 # Service name
 kubernetes_nginx_l4_lb_service: "nginx-l4-lb"
 
+# Healthcheck port. If none, no healthcheck will be setup
+kubernetes_nginx_l4_lb_healthcheck_port:
+
 # Node selector
 kubernetes_nginx_l4_lb_node_selector: {}
 

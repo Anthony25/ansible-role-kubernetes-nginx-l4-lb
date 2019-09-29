@@ -10,6 +10,17 @@ data:
     events {
         worker_connections  1024;
     }
+
+    {% if kubernetes_nginx_l4_lb_healthcheck_port is defined %}
+    http {
+      server {
+          listen [::]:{{ kubernetes_nginx_l4_lb_healthcheck_port }} ipv6only=off default_server;
+          location / {
+              return 200 "healthy\n";
+          }
+      }
+    }
+    {% endif %}
     stream {
       include /etc/nginx/conf.d/streams.conf;
     }

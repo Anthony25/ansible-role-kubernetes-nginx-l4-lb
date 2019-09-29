@@ -29,6 +29,14 @@ spec:
         name: nginx-l4-lb
         resources:
           {{ kubernetes_nginx_l4_lb_resources | to_yaml | indent(10) }}
+{% if kubernetes_nginx_l4_lb_healthcheck_port is defined %}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ kubernetes_nginx_l4_lb_healthcheck_port }}
+          initialDelaySeconds: 10
+          periodSeconds: 10
+{% endif %}
         securityContext:
           capabilities:
             drop:

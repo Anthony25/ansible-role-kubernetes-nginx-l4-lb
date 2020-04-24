@@ -1,6 +1,6 @@
 ---
 
-kubernetes_nginx_l4_lb_image: "anthony25/nginx-autoreload:1.16.1-alpine"
+kubernetes_nginx_l4_lb_image: "anthony25/nginx-autoreload:1.18.0-alpine"
 
 kubernetes_nginx_l4_lb_namespace: "default"
 kubernetes_nginx_l4_lb_daemonset: "nginx-l4-lb-daemonset"
